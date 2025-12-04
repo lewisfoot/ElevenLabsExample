@@ -1,4 +1,6 @@
+using ElevenLabsExample.ApiService.Infrastructure;
 using ElevenLabsExample.ApiService.Presentation;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,11 @@ builder.Services.AddProblemDetails();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddDbContext<ApplicationDbContext>(optionsAction =>
+{
+    optionsAction.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 var app = builder.Build();
 
