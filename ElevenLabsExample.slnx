@@ -1,6 +1,7 @@
 <Solution>
   <Project Path="ElevenLabsExample.ApiService/ElevenLabsExample.ApiService.csproj" />
   <Project Path="ElevenLabsExample.AppHost/ElevenLabsExample.AppHost.csproj" />
+  <Project Path="ElevenLabsExample.Common/ElevenLabsExample.Common.csproj" Id="923050e2-7ae6-412c-8c7d-39347256c7f3" />
   <Project Path="ElevenLabsExample.ServiceDefaults/ElevenLabsExample.ServiceDefaults.csproj" />
   <Project Path="ElevenLabsExample.Tests/ElevenLabsExample.Tests.csproj" />
   <Project Path="ElevenLabsExample.Web/ElevenLabsExample.Web.csproj" />

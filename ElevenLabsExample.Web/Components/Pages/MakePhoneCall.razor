@@ -1,0 +1,108 @@
+﻿@page "/call"
+@using System.ComponentModel.DataAnnotations
+@attribute [StreamRendering(true)]
+@attribute [OutputCache(Duration = 5)]
+
+@inject WeatherApiClient WeatherApi
+
+<PageTitle>Make Phone Call</PageTitle>
+
+<h1>Make Phone Call</h1>
+
+<p>This component demonstrates showing data loaded from a backend API service.</p>
+
+<EditForm Model="@formData" OnValidSubmit="@HandleValidSubmit" FormName="MakePhoneCall">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="mb-3">
+        <label class="form-label">Carer Name</label>
+        <InputText class="form-control" @bind-Value="formData.CarerFirstName" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Phone Number</label>
+        <InputNumber class="form-control" @bind-Value="formData.PhoneNumber" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Visit Date</label>
+        <InputDate class="form-control" @bind-Value="formData.VisitDate" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Visit Time</label>
+        <InputNumber class="form-control" @bind-Value="formData.VisitTime" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Duration</label>
+        <InputNumber class="form-control" @bind-Value="formData.VisitDurationMinutes" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Duration</label>
+        <InputText class="form-control" @bind-Value="formData.ClientPostcode" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th aria-label="Temperature in Celsius">Temp. (C)</th>
+                <th aria-label="Temperature in Farenheit">Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private WeatherForecast[]? forecasts;
+    private FormData formData = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await WeatherApi.GetWeatherAsync();
+    }
+
+    private void HandleValidSubmit()
+    {
+        // Do something with formData (e.g., save to DB, API call...)
+    }
+
+    public class FormData
+    {
+        [Required]
+        public string CarerFirstName { get; set; } = string.Empty;
+
+        [Required, Phone]
+        public int PhoneNumber { get; set; }
+
+        [Required]
+        public DateOnly VisitDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+
+        [Required]
+        public int VisitTime { get; set; }
+
+        [Required]
+        public int VisitDurationMinutes { get; set; }
+
+        [Required]
+        public string ClientPostcode { get; set; } = string.Empty;
+    }
+}

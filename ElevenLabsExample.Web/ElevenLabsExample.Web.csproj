@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ElevenLabsExample.Common\ElevenLabsExample.Common.csproj" />
     <ProjectReference Include="..\ElevenLabsExample.ServiceDefaults\ElevenLabsExample.ServiceDefaults.csproj" />
   </ItemGroup>
 
