@@ -3,6 +3,6 @@
 public record CreatePhoneCallDto(
     string CarerFirstName,
     int PhoneNumber,
-    DateTime VisitDate,
+    DateOnly VisitDate,
     int VisitDurationMinutes,
     string ClientPostcode);
