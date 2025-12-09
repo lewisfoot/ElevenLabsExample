@@ -18,11 +18,18 @@ public class CreatePhoneCallHandler : ICreatePhoneCallHandler
 
     public async Task CreatePhoneCall(CreatePhoneCallDto createPhoneCallDto, CancellationToken cancellationToken)
     {
-        //Map dto to domain model. 
-        PhoneCall phoneCall = new();
-        await _phoneCallRepository.AddPhoneCallAsync(phoneCall, cancellationToken);
-        await _elevenLabsService.CreateElevenLabsPhoneCall(cancellationToken);
-        await _phoneCallRepository.UpdatePhoneCallStatusAsync(phoneCall.Id, "In-Progress", cancellationToken);
-        
+        try
+        {
+            //Map dto to domain model. 
+            PhoneCall phoneCall = new();
+            await _phoneCallRepository.AddPhoneCallAsync(phoneCall, cancellationToken);
+            await _elevenLabsService.CreateElevenLabsPhoneCall(cancellationToken);
+            await _phoneCallRepository.UpdatePhoneCallStatusAsync(phoneCall.Id, "In-Progress", cancellationToken);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }
